@@ -177,12 +177,29 @@ export default function MapboxMap({
   const onPinPlacedRef = useRef(onPinPlaced);
 
   if (!MAPBOX_TOKEN) {
+    const safeCenter = Array.isArray(center) && center.length === 2 ? center : ILOILO_CENTER;
+    const lng = Number(safeCenter[0]) || ILOILO_CENTER[0];
+    const lat = Number(safeCenter[1]) || ILOILO_CENTER[1];
+    const span = 0.06;
+    const left = lng - span;
+    const right = lng + span;
+    const top = lat + span;
+    const bottom = lat - span;
+    const osmSrc = `https://www.openstreetmap.org/export/embed.html?bbox=${left}%2C${bottom}%2C${right}%2C${top}&layer=mapnik&marker=${lat}%2C${lng}`;
+
     return (
-      <div className={`w-full h-full bg-slate-100 flex items-center justify-center ${className}`}>
-        <div className="text-center px-6">
-          <div className="text-sm font-semibold text-slate-700">Map unavailable</div>
-          <div className="text-xs text-slate-500 mt-1">
-            Missing VITE_MAPBOX_PUBLIC_TOKEN or VITE_MAPBOX_TOKEN in environment.
+      <div className={`w-full h-full bg-slate-100 ${className}`}>
+        <iframe
+          src={osmSrc}
+          title="OpenStreetMap fallback"
+          className="w-full h-full border-0"
+          loading="lazy"
+          referrerPolicy="no-referrer-when-downgrade"
+        />
+        <div className="absolute top-3 left-1/2 -translate-x-1/2 rounded-full bg-white/95 px-3 py-1 text-[11px] font-semibold text-slate-700 shadow-sm">
+          OpenStreetMap fallback active
+          <div className="text-[10px] font-normal text-slate-500">
+            Set VITE_MAPBOX_PUBLIC_TOKEN for live rider overlays and pin placement.
           </div>
         </div>
       </div>

@@ -33,6 +33,16 @@ const MAPBOX_PUBLIC = import.meta.env.VITE_MAPBOX_PUBLIC_TOKEN || import.meta.en
 
 // ── Utilities ─────────────────────────────────────────────────
 async function reverseGeocode(lng, lat) {
+  if (!MAPBOX_PUBLIC) {
+    try {
+      const url = `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lng}&zoom=17&addressdetails=1`;
+      const res = await fetch(url, { headers: { Accept: "application/json" } });
+      const data = await res.json();
+      if (data?.display_name) return data.display_name;
+    } catch {}
+    return `${lat.toFixed(5)}, ${lng.toFixed(5)}`;
+  }
+
   try {
     const res = await fetch(`https://api.mapbox.com/geocoding/v5/mapbox.places/${lng},${lat}.json?access_token=${MAPBOX_PUBLIC}&limit=1&types=address,poi`);
     const data = await res.json();
@@ -42,6 +52,20 @@ async function reverseGeocode(lng, lat) {
 }
 
 async function forwardGeocode(query) {
+  if (!MAPBOX_PUBLIC) {
+    try {
+      const url = `https://nominatim.openstreetmap.org/search?format=jsonv2&limit=8&countrycodes=ph&q=${encodeURIComponent(query)}`;
+      const res = await fetch(url, { headers: { Accept: "application/json" } });
+      const data = await res.json();
+      return (Array.isArray(data) ? data : []).map((item) => ({
+        place_name: item.display_name,
+        center: [Number(item.lon), Number(item.lat)],
+        place_type: item.type || "place",
+      }));
+    } catch {}
+    return [];
+  }
+
   try {
     const params = new URLSearchParams({
       access_token: MAPBOX_PUBLIC,
