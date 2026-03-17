@@ -8,7 +8,7 @@ import ChatPanel from "../chat/ChatPanel";
 const PRIMARY = "#4DC8F0";
 const PRIMARY_DARK = "#1a9ecb";
 const PRIMARY_BG = "#EBF9FE";
-const MAPBOX_TOKEN = import.meta.env.VITE_MAPBOX_PUBLIC_TOKEN || "";
+const MAPBOX_TOKEN = import.meta.env.VITE_MAPBOX_PUBLIC_TOKEN || import.meta.env.VITE_MAPBOX_TOKEN || "";
 
 const STATUS_CONFIG = {
   pending:     { label: "Finding your rider...",       bg: "#FFF7ED", color: "#d97706", dot: "#f59e0b", emoji: "🔍" },

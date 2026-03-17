@@ -5,7 +5,7 @@ import mapboxgl from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 import { X, RefreshCw, Users, Navigation, Bike } from "lucide-react";
 
-const MAPBOX_TOKEN = import.meta.env.VITE_MAPBOX_PUBLIC_TOKEN || "";
+const MAPBOX_TOKEN = import.meta.env.VITE_MAPBOX_PUBLIC_TOKEN || import.meta.env.VITE_MAPBOX_TOKEN || "";
 const PRIMARY = "#4DC8F0";
 const GREEN = "#10b981";
 const BLUE = "#3b82f6";
@@ -43,7 +43,7 @@ export default function LiveMapMonitor({ onClose, networkId = null }) {
       <div className="absolute inset-0 z-50 flex items-center justify-center bg-gray-900">
         <div className="rounded-2xl border border-gray-700 bg-gray-800 p-6 text-center max-w-sm mx-4">
           <p className="text-sm font-semibold text-white">Live map unavailable</p>
-          <p className="text-xs text-gray-400 mt-2">Set `VITE_MAPBOX_PUBLIC_TOKEN` to enable map rendering.</p>
+          <p className="text-xs text-gray-400 mt-2">Set VITE_MAPBOX_PUBLIC_TOKEN or VITE_MAPBOX_TOKEN to enable map rendering.</p>
           <button
             onClick={onClose}
             className="mt-4 px-4 py-2 rounded-lg bg-gray-700 text-gray-200 text-sm font-medium hover:bg-gray-600"

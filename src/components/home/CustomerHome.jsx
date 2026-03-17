@@ -29,7 +29,7 @@ const PRIMARY = COLORS.primary;
 const PRIMARY_DARK = COLORS.primaryDark;
 const PRIMARY_BG = COLORS.primaryBg;
 // Public Mapbox token used ONLY for client-side map display (MapboxMap component)
-const MAPBOX_PUBLIC = import.meta.env.VITE_MAPBOX_PUBLIC_TOKEN || "";
+const MAPBOX_PUBLIC = import.meta.env.VITE_MAPBOX_PUBLIC_TOKEN || import.meta.env.VITE_MAPBOX_TOKEN || "";
 
 // ── Utilities ─────────────────────────────────────────────────
 async function reverseGeocode(lng, lat) {

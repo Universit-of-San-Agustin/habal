@@ -2,7 +2,7 @@ import { useEffect, useRef } from "react";
 import mapboxgl from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 
-const MAPBOX_TOKEN = import.meta.env.VITE_MAPBOX_PUBLIC_TOKEN || "";
+const MAPBOX_TOKEN = import.meta.env.VITE_MAPBOX_PUBLIC_TOKEN || import.meta.env.VITE_MAPBOX_TOKEN || "";
 
 // Iloilo City center
 const ILOILO_CENTER = [122.5654, 10.7202];
@@ -182,7 +182,7 @@ export default function MapboxMap({
         <div className="text-center px-6">
           <div className="text-sm font-semibold text-slate-700">Map unavailable</div>
           <div className="text-xs text-slate-500 mt-1">
-            Missing `VITE_MAPBOX_PUBLIC_TOKEN` in environment.
+            Missing VITE_MAPBOX_PUBLIC_TOKEN or VITE_MAPBOX_TOKEN in environment.
           </div>
         </div>
       </div>
