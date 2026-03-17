@@ -38,6 +38,23 @@ export default function LiveMapMonitor({ onClose, networkId = null }) {
   const [stats, setStats] = useState({ online: 0, on_trip: 0, offline: 0, total: 0 });
   const intervalRef = useRef(null);
 
+  if (!MAPBOX_TOKEN) {
+    return (
+      <div className="absolute inset-0 z-50 flex items-center justify-center bg-gray-900">
+        <div className="rounded-2xl border border-gray-700 bg-gray-800 p-6 text-center max-w-sm mx-4">
+          <p className="text-sm font-semibold text-white">Live map unavailable</p>
+          <p className="text-xs text-gray-400 mt-2">Set `VITE_MAPBOX_PUBLIC_TOKEN` to enable map rendering.</p>
+          <button
+            onClick={onClose}
+            className="mt-4 px-4 py-2 rounded-lg bg-gray-700 text-gray-200 text-sm font-medium hover:bg-gray-600"
+          >
+            Close
+          </button>
+        </div>
+      </div>
+    );
+  }
+
   // Build marker popup HTML
   function buildPopupHTML(rider, loc) {
     const color = markerColor(rider);

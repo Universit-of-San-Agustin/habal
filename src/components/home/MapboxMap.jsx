@@ -176,6 +176,19 @@ export default function MapboxMap({
   const pinModeRef = useRef(pinMode);
   const onPinPlacedRef = useRef(onPinPlaced);
 
+  if (!MAPBOX_TOKEN) {
+    return (
+      <div className={`w-full h-full bg-slate-100 flex items-center justify-center ${className}`}>
+        <div className="text-center px-6">
+          <div className="text-sm font-semibold text-slate-700">Map unavailable</div>
+          <div className="text-xs text-slate-500 mt-1">
+            Missing `VITE_MAPBOX_PUBLIC_TOKEN` in environment.
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   // Keep refs in sync so the click handler always sees latest values
   useEffect(() => { pinModeRef.current = pinMode; }, [pinMode]);
   useEffect(() => { onPinPlacedRef.current = onPinPlaced; }, [onPinPlaced]);
