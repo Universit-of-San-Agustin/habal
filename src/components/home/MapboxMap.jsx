@@ -159,6 +159,8 @@ export default function MapboxMap({
   pickupMarker,
   dropoffMarker,
   riderMarker,
+  riderMarkers = [],
+  onMapLoad,
   followRider = false,
   pinMode = null,
   onPinPlaced = null,
@@ -172,23 +174,33 @@ export default function MapboxMap({
   const riderMarkerRef = useRef(null);
   const draftMarkerRef = useRef(null);
   const landmarkMarkersRef = useRef([]);
+  const extraMarkersRef = useRef({});
   const prevRiderPos = useRef(null);
   const pinModeRef = useRef(pinMode);
   const onPinPlacedRef = useRef(onPinPlaced);
 
   if (!MAPBOX_TOKEN) {
     const safeCenter = Array.isArray(center) && center.length === 2 ? center : ILOILO_CENTER;
-    const lng = Number(safeCenter[0]) || ILOILO_CENTER[0];
-    const lat = Number(safeCenter[1]) || ILOILO_CENTER[1];
+    const centerLng = Number(safeCenter[0]) || ILOILO_CENTER[0];
+    const centerLat = Number(safeCenter[1]) || ILOILO_CENTER[1];
     const span = 0.06;
-    const left = lng - span;
-    const right = lng + span;
-    const top = lat + span;
-    const bottom = lat - span;
-    const osmSrc = `https://www.openstreetmap.org/export/embed.html?bbox=${left}%2C${bottom}%2C${right}%2C${top}&layer=mapnik&marker=${lat}%2C${lng}`;
+    const left = centerLng - span;
+    const right = centerLng + span;
+    const top = centerLat + span;
+    const bottom = centerLat - span;
+    const osmSrc = `https://www.openstreetmap.org/export/embed.html?bbox=${left}%2C${bottom}%2C${right}%2C${top}&layer=mapnik&marker=${centerLat}%2C${centerLng}`;
+
+    const project = (lng, lat) => {
+      const x = ((Number(lng) - left) / (right - left)) * 100;
+      const y = ((top - Number(lat)) / (top - bottom)) * 100;
+      return {
+        left: Math.max(2, Math.min(98, x)),
+        top: Math.max(2, Math.min(98, y)),
+      };
+    };
 
     return (
-      <div className={`w-full h-full bg-slate-100 ${className}`}>
+      <div className={`relative w-full h-full bg-slate-100 ${className}`}>
         <iframe
           src={osmSrc}
           title="OpenStreetMap fallback"
@@ -196,10 +208,40 @@ export default function MapboxMap({
           loading="lazy"
           referrerPolicy="no-referrer-when-downgrade"
         />
+
+        {pickupMarker && (
+          <div className="absolute -translate-x-1/2 -translate-y-1/2 text-[16px]" style={project(pickupMarker.lng, pickupMarker.lat)}>
+            <span title="Pickup">📍</span>
+          </div>
+        )}
+        {dropoffMarker && (
+          <div className="absolute -translate-x-1/2 -translate-y-1/2 text-[16px]" style={project(dropoffMarker.lng, dropoffMarker.lat)}>
+            <span title="Dropoff">🏁</span>
+          </div>
+        )}
+        {riderMarker && (
+          <div className="absolute -translate-x-1/2 -translate-y-1/2 text-[16px]" style={project(riderMarker.lng, riderMarker.lat)}>
+            <span title="Rider">🏍</span>
+          </div>
+        )}
+        {(Array.isArray(riderMarkers) ? riderMarkers : []).map((marker) => {
+          const pos = project(marker.lng, marker.lat);
+          return (
+            <button
+              key={marker.id}
+              type="button"
+              className="absolute -translate-x-1/2 -translate-y-1/2 w-3.5 h-3.5 rounded-full border-2 border-white shadow"
+              style={{ ...pos, background: marker.color || "#3b82f6" }}
+              onClick={marker.onClick}
+              title={marker.id}
+            />
+          );
+        })}
+
         <div className="absolute top-3 left-1/2 -translate-x-1/2 rounded-full bg-white/95 px-3 py-1 text-[11px] font-semibold text-slate-700 shadow-sm">
           OpenStreetMap fallback active
           <div className="text-[10px] font-normal text-slate-500">
-            Set VITE_MAPBOX_PUBLIC_TOKEN for live rider overlays and pin placement.
+            Set VITE_MAPBOX_PUBLIC_TOKEN for full live map overlays.
           </div>
         </div>
       </div>
@@ -300,12 +342,15 @@ export default function MapboxMap({
       landmarkMarkersRef.current = createLandmarkMarkers(map);
       showMarkers();
       map.on("zoom", showMarkers);
+      if (typeof onMapLoad === "function") onMapLoad(map);
     });
 
     mapRef.current = map;
     return () => {
       landmarkMarkersRef.current.forEach((m) => m.remove());
       landmarkMarkersRef.current = [];
+      Object.values(extraMarkersRef.current).forEach((marker) => marker.remove());
+      extraMarkersRef.current = {};
       if (draftMarkerRef.current) { draftMarkerRef.current.remove(); draftMarkerRef.current = null; }
       map.remove();
       mapRef.current = null;
@@ -396,6 +441,50 @@ export default function MapboxMap({
 
     prevRiderPos.current = lngLat;
   }, [riderMarker, followRider]);
+
+  // Optional additional rider markers (used by operator/network live map)
+  useEffect(() => {
+    if (!mapRef.current) return;
+
+    const list = Array.isArray(riderMarkers) ? riderMarkers : [];
+    const nextIds = new Set(list.map((m) => m.id));
+
+    Object.keys(extraMarkersRef.current).forEach((id) => {
+      if (!nextIds.has(id)) {
+        extraMarkersRef.current[id].remove();
+        delete extraMarkersRef.current[id];
+      }
+    });
+
+    list.forEach((markerData) => {
+      const lngLat = [markerData.lng, markerData.lat];
+      const color = markerData.color || "#3b82f6";
+
+      if (extraMarkersRef.current[markerData.id]) {
+        extraMarkersRef.current[markerData.id].setLngLat(lngLat);
+        return;
+      }
+
+      const el = document.createElement("button");
+      el.type = "button";
+      el.style.cssText = `
+        width: 16px;
+        height: 16px;
+        border-radius: 9999px;
+        border: 2px solid #fff;
+        background: ${color};
+        box-shadow: 0 2px 8px rgba(15,23,42,0.28);
+        cursor: pointer;
+      `;
+      if (typeof markerData.onClick === "function") {
+        el.addEventListener("click", markerData.onClick);
+      }
+
+      extraMarkersRef.current[markerData.id] = new mapboxgl.Marker({ element: el, anchor: "center" })
+        .setLngLat(lngLat)
+        .addTo(mapRef.current);
+    });
+  }, [riderMarkers]);
 
   // Route line rendering
   useEffect(() => {

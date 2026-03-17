@@ -352,63 +352,13 @@ function RiderDetailPanel({ rider, location, activeBooking, onClose }) {
 }
 
 function LiveOperatorMap({ riders, riderLocations, activeBookings, onMarkerClick }) {
-  const mapRef = useRef(null);
-  const markersRef = useRef({});
 
-  useEffect(() => {
-    if (!mapRef.current) return;
-
-    // Clean up old markers
-    Object.values(markersRef.current).forEach(marker => marker.remove());
-    markersRef.current = {};
-
-    // Add markers for each rider
-    riders.forEach(rider => {
-      const loc = riderLocations[rider.id];
-      if (!loc) return;
-
-      const booking = activeBookings.find(b => b.rider_id === rider.id);
-      const isOnTrip = loc.status === "en_route_pickup" || loc.status === "en_route_dropoff";
-      const isAssigned = booking?.status === "assigned";
-      const isOnline = rider.online_status === "online" || rider.online_status === "on_trip";
-
-      let markerColor = "#9ca3af";
-      if (isOnTrip) markerColor = "#3b82f6";
-      else if (isAssigned) markerColor = "#f59e0b";
-      else if (isOnline) markerColor = "#10b981";
-
-      const el = document.createElement('div');
-      el.className = 'rider-marker';
-      el.innerHTML = `
-        <div class="relative cursor-pointer" style="width: 40px; height: 40px;">
-          <div class="w-10 h-10 rounded-full border-3 border-white shadow-lg flex items-center justify-center text-white font-bold text-sm"
-               style="background: ${markerColor}; border-width: 3px;">
-            🏍
-          </div>
-          ${isOnline ? `<div class="absolute inset-0 rounded-full animate-ping" style="background: ${markerColor}; opacity: 0.3;"></div>` : ''}
-        </div>
-      `;
-      el.addEventListener('click', () => onMarkerClick(rider.id));
-
-      const marker = new mapboxgl.Marker(el)
-        .setLngLat([loc.lng, loc.lat])
-        .addTo(mapRef.current);
-
-      markersRef.current[rider.id] = marker;
-    });
-
-    return () => {
-      Object.values(markersRef.current).forEach(marker => marker.remove());
-      markersRef.current = {};
-    };
-  }, [riders, riderLocations, activeBookings, onMarkerClick]);
 
   return (
     <div className="w-full h-full relative">
       <MapboxMap 
         className="w-full h-full" 
         zoom={13}
-        onMapLoad={(map) => { mapRef.current = map; }}
         riderMarkers={riders.map(r => {
           const loc = riderLocations[r.id];
           if (!loc) return null;
@@ -428,7 +378,6 @@ function LiveOperatorMap({ riders, riderLocations, activeBookings, onMarkerClick
             lat: loc.lat,
             lng: loc.lng,
             color: markerColor,
-            isOnline,
             onClick: () => onMarkerClick(r.id)
           };
         }).filter(Boolean)}
