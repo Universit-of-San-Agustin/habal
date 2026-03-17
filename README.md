@@ -1,79 +1,87 @@
 # HABAL
 
 <p align="center">
-	<img src="https://readme-typing-svg.demolab.com?font=JetBrains+Mono&weight=700&size=22&duration=2200&pause=800&color=22C55E&center=true&vCenter=true&width=900&lines=%E2%98%98+HABAL+%7C+Clover+Edition;%E2%9A%A1+Fast+Demo+Flows+%E2%80%A2+Live+Maps+%E2%80%A2+Role+Switching;%F0%9F%9A%80+Built+to+impress+developers" alt="typing-banner" />
+	<img src="https://readme-typing-svg.demolab.com?font=JetBrains+Mono&weight=700&size=22&duration=2400&pause=700&color=22C55E&center=true&vCenter=true&width=900&lines=HABAL+Platform;Real-time+Booking+%E2%80%A2+Dispatch+%E2%80%A2+Role+Simulation;Built+with+React%2C+Vite%2C+and+Mapbox" alt="typing-banner" />
 </p>
 
 <p align="center">
 	<a href="https://github.com/Universit-of-San-Agustin/habal/actions"><img src="https://img.shields.io/github/actions/workflow/status/Universit-of-San-Agustin/habal/deploy-pages.yml?style=for-the-badge&label=Pages%20Deploy" alt="deploy-status" /></a>
-	<img src="https://img.shields.io/badge/Clover-%E2%98%98-22c55e?style=for-the-badge" alt="clover" />
-	<img src="https://img.shields.io/badge/Vite-6.x-646CFF?style=for-the-badge&logo=vite&logoColor=white" alt="vite" />
 	<img src="https://img.shields.io/badge/React-18-149ECA?style=for-the-badge&logo=react&logoColor=white" alt="react" />
+	<img src="https://img.shields.io/badge/Vite-6.x-646CFF?style=for-the-badge&logo=vite&logoColor=white" alt="vite" />
+	<img src="https://img.shields.io/badge/TailwindCSS-3.x-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white" alt="tailwind" />
+	<img src="https://img.shields.io/badge/Mapbox-GL-000000?style=for-the-badge&logo=mapbox&logoColor=white" alt="mapbox" />
 </p>
 
-## ☘ Project Identity
+## Overview
 
-- Platform: HABAL ride and dispatch experience
-- Theme/Credit direction: 4.chan clover style inspiration
-- Focus: demo-ready flow, role switching, dispatch visibility, and map-based interaction
+HABAL is a role-based mobility platform prototype focused on booking, rider dispatch, operator monitoring, and admin visibility. It includes a full demo simulation loop for end-to-end flow testing without requiring live backend interactions in demo mode.
 
-## ⚡ Quick Start
+## Core Features
 
-1. Clone this repository.
-2. Go to the project folder.
-3. Install dependencies:
+- Multi-role experience: Customer, Rider, Operator, Admin
+- Live booking lifecycle and trip status transitions
+- Dispatch activity stream and role-specific dashboards
+- Rider location visualization and map tracking
+- Demo store simulation for local, deterministic test runs
+- GitHub Pages-ready static deployment pipeline
+
+## Tech Stack
+
+- React 18
+- Vite 6
+- Tailwind CSS
+- React Router
+- TanStack Query
+- Mapbox GL
+
+## Quick Start
+
+1. Clone the repository.
+2. Install dependencies:
 
 ```bash
 npm install
 ```
 
-4. Create `.env.local` from `.env.example` and set values:
+3. Copy environment template and configure values:
 
-```env
-VITE_BASE44_APP_ID=your_app_id
-VITE_BASE44_APP_BASE_URL=your_backend_url
-VITE_MAPBOX_PUBLIC_TOKEN=your_mapbox_public_token
+```bash
+cp .env.example .env.local
 ```
 
-5. Start local development:
+4. Start development server:
 
 ```bash
 npm run dev
 ```
 
-6. Build production bundle:
+5. Build for production:
 
 ```bash
 npm run build
 ```
 
-## 🚀 GitHub Pages Deployment
+## Deployment (GitHub Pages)
 
-This repo is already configured for Pages via GitHub Actions.
+This repository includes a Pages workflow at [.github/workflows/deploy-pages.yml](.github/workflows/deploy-pages.yml).
 
-1. Open repository Settings > Pages.
+1. Go to repository Settings > Pages.
 2. Set source to GitHub Actions.
-3. Push to `main`.
-4. Workflow [deploy-pages.yml](.github/workflows/deploy-pages.yml) builds and deploys `dist`.
+3. Push to main.
+4. Wait for workflow completion in Actions.
 
-### Pages Notes
+## Project Structure
 
-- Uses `HashRouter` automatically on `github.io` hosts.
-- Vite base path is configured for static subpath hosting.
-- `.nojekyll` is included for clean static asset handling.
+- [src](src): application source code
+- [src/components](src/components): role dashboards and shared UI
+- [src/pages](src/pages): route-level entry pages
+- [functions](functions): server-side function handlers
+- [.github/workflows](.github/workflows): CI/CD workflows
 
-## 🧠 Developer Highlights
-
-- Multi-role flow: Customer, Rider, Operator, Admin
-- Demo-mode store for local simulation
-- Real-time style dispatch activity feed
-- Mapbox-powered rider and trip visualization
-
-## 👤 Author
+## Author
 
 - Satoshinkarts
 
-## 🙏 Credits
+## Credits
 
-- 4.chan clover-inspired creative direction ☘
-- Open-source ecosystem: React, Vite, Tailwind, Lucide
+- Open-source community libraries and tooling
