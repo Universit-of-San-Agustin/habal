@@ -11,6 +11,7 @@ const GREEN = "#10b981";
 const BLUE = "#3b82f6";
 const GRAY = "#9ca3af";
 const RED = "#ef4444";
+const ILOILO_CENTER = [122.5654, 10.7202];
 
 // Marker color by rider state
 function markerColor(rider) {
@@ -39,17 +40,42 @@ export default function LiveMapMonitor({ onClose, networkId = null }) {
   const intervalRef = useRef(null);
 
   if (!MAPBOX_TOKEN) {
+    const lng = ILOILO_CENTER[0];
+    const lat = ILOILO_CENTER[1];
+    const span = 0.06;
+    const left = lng - span;
+    const right = lng + span;
+    const top = lat + span;
+    const bottom = lat - span;
+    const osmSrc = `https://www.openstreetmap.org/export/embed.html?bbox=${left}%2C${bottom}%2C${right}%2C${top}&layer=mapnik&marker=${lat}%2C${lng}`;
+
     return (
-      <div className="absolute inset-0 z-50 flex items-center justify-center bg-gray-900">
-        <div className="rounded-2xl border border-gray-700 bg-gray-800 p-6 text-center max-w-sm mx-4">
-          <p className="text-sm font-semibold text-white">Live map unavailable</p>
-          <p className="text-xs text-gray-400 mt-2">Set VITE_MAPBOX_PUBLIC_TOKEN or VITE_MAPBOX_TOKEN to enable map rendering.</p>
-          <button
-            onClick={onClose}
-            className="mt-4 px-4 py-2 rounded-lg bg-gray-700 text-gray-200 text-sm font-medium hover:bg-gray-600"
-          >
-            Close
+      <div className="absolute inset-0 z-50 flex flex-col bg-gray-900">
+        <div className="flex items-center justify-between px-4 py-3 bg-gray-900 border-b border-gray-700 flex-shrink-0 z-10">
+          <div className="flex items-center gap-2">
+            <div className="w-2 h-2 rounded-full bg-amber-400" />
+            <span className="text-white font-bold text-sm">Live Map Monitoring (Fallback)</span>
+          </div>
+          <button onClick={onClose}
+            className="w-8 h-8 rounded-full flex items-center justify-center bg-gray-700 hover:bg-gray-600">
+            <X className="w-4 h-4 text-gray-300" />
           </button>
+        </div>
+
+        <div className="relative flex-1">
+          <iframe
+            src={osmSrc}
+            title="Admin OpenStreetMap fallback"
+            className="w-full h-full border-0"
+            loading="lazy"
+            referrerPolicy="no-referrer-when-downgrade"
+          />
+          <div className="absolute top-3 left-1/2 -translate-x-1/2 rounded-full bg-white/95 px-3 py-1 text-[11px] font-semibold text-slate-700 shadow-sm">
+            OpenStreetMap fallback active
+            <div className="text-[10px] font-normal text-slate-500">
+              Set VITE_MAPBOX_PUBLIC_TOKEN for full live rider overlays.
+            </div>
+          </div>
         </div>
       </div>
     );
