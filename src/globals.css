@@ -1,0 +1,558 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ══════════════════════════════════════════════════════════════
+   HABAL PREMIUM DESIGN SYSTEM
+   Apple Human Interface Guidelines Inspired
+   ══════════════════════════════════════════════════════════════ */
+
+/* ── Typography (SF Pro Display / Inter) ───────────────────── */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+/* ── Design Tokens ─────────────────────────────────────────── */
+:root {
+  /* Primary Brand - Soft Blue (Apple-style) */
+  --primary:      #007AFF;
+  --primary-dark: #0051D5;
+  --primary-bg:   #E5F1FF;
+  --primary-light:#EBF5FF;
+
+  /* Semantic Colors */
+  --success:      #34C759;
+  --success-dark: #248A3D;
+  --success-bg:   #E8F5E9;
+  --warning:      #FF9500;
+  --warning-dark: #C93400;
+  --warning-bg:   #FFF4E5;
+  --error:        #FF3B30;
+  --error-dark:   #C7291E;
+  --error-bg:     #FFEBEE;
+  --info:         #5AC8FA;
+  --info-dark:    #0084C7;
+  --info-bg:      #E3F5FF;
+
+  /* Neutrals (Apple Gray Scale) */
+  --gray-50:      #FAFAFA;
+  --gray-100:     #F5F5F7;
+  --gray-200:     #E5E5EA;
+  --gray-300:     #D1D1D6;
+  --gray-400:     #C7C7CC;
+  --gray-500:     #AEAEB2;
+  --gray-600:     #8E8E93;
+  --gray-700:     #636366;
+  --gray-800:     #48484A;
+  --gray-900:     #1C1C1E;
+
+  /* Backgrounds */
+  --bg-primary:   #FFFFFF;
+  --bg-secondary: #F5F5F7;
+  --bg-tertiary:  #FAFAFA;
+
+  /* Typography */
+  --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
+
+  /* Shadows (Apple-style subtle) */
+  --shadow-sm:    0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.06);
+  --shadow-md:    0 4px 8px rgba(0,0,0,0.08), 0 2px 4px rgba(0,0,0,0.04);
+  --shadow-lg:    0 10px 20px rgba(0,0,0,0.08), 0 4px 8px rgba(0,0,0,0.04);
+  --shadow-xl:    0 20px 40px rgba(0,0,0,0.1), 0 8px 16px rgba(0,0,0,0.06);
+
+  /* Radius */
+  --radius-sm:    8px;
+  --radius-md:    12px;
+  --radius-lg:    16px;
+  --radius-xl:    20px;
+  --radius-2xl:   24px;
+
+  /* Spacing scale (Apple 4px grid) */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+
+  /* shadcn/ui compatibility */
+  --background:   0 0% 100%;
+  --foreground:   240 10% 10%;
+  --card:         0 0% 100%;
+  --card-foreground: 240 10% 10%;
+  --popover:      0 0% 100%;
+  --popover-foreground: 240 10% 10%;
+  --primary-hsl:  211 100% 50%;
+  --primary-foreground: 0 0% 100%;
+  --secondary:    240 5% 96%;
+  --secondary-foreground: 240 6% 10%;
+  --muted:        240 5% 96%;
+  --muted-foreground: 240 4% 46%;
+  --accent-hsl:   211 100% 50%;
+  --accent-foreground: 0 0% 100%;
+  --destructive:  0 84% 60%;
+  --destructive-foreground: 0 0% 100%;
+  --border:       240 6% 90%;
+  --input:        240 6% 90%;
+  --ring:         211 100% 50%;
+  --radius:       12px;
+}
+
+/* Dark mode (Apple-style) */
+.dark {
+  --primary:      #0A84FF;
+  --primary-dark: #0051D5;
+  --primary-bg:   #1C2A3A;
+  
+  --gray-50:      #1C1C1E;
+  --gray-100:     #2C2C2E;
+  --gray-200:     #3A3A3C;
+  --gray-300:     #48484A;
+  --gray-400:     #636366;
+  --gray-500:     #8E8E93;
+  --gray-600:     #AEAEB2;
+  --gray-700:     #C7C7CC;
+  --gray-800:     #D1D1D6;
+  --gray-900:     #F5F5F7;
+
+  --bg-primary:   #000000;
+  --bg-secondary: #1C1C1E;
+  --bg-tertiary:  #2C2C2E;
+
+  --background:   0 0% 0%;
+  --foreground:   240 5% 96%;
+  --card:         240 10% 11%;
+  --card-foreground: 240 5% 96%;
+}
+
+/* ── Base Styles ───────────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body, #root {
+  height: 100%;
+  background: var(--bg-secondary);
+  color: var(--gray-900);
+  font-family: var(--font-primary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* ── Typography System (Apple HIG) ─────────────────────────── */
+.text-large-title {
+  font-size: 34px;
+  line-height: 41px;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+}
+
+.text-title-1 {
+  font-size: 28px;
+  line-height: 34px;
+  font-weight: 700;
+  letter-spacing: -0.3px;
+}
+
+.text-title-2 {
+  font-size: 22px;
+  line-height: 28px;
+  font-weight: 600;
+  letter-spacing: -0.2px;
+}
+
+.text-title-3 {
+  font-size: 20px;
+  line-height: 25px;
+  font-weight: 600;
+  letter-spacing: -0.1px;
+}
+
+.text-headline {
+  font-size: 17px;
+  line-height: 22px;
+  font-weight: 600;
+}
+
+.text-body {
+  font-size: 17px;
+  line-height: 22px;
+  font-weight: 400;
+}
+
+.text-callout {
+  font-size: 16px;
+  line-height: 21px;
+  font-weight: 400;
+}
+
+.text-subhead {
+  font-size: 15px;
+  line-height: 20px;
+  font-weight: 400;
+}
+
+.text-footnote {
+  font-size: 13px;
+  line-height: 18px;
+  font-weight: 400;
+}
+
+.text-caption-1 {
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 400;
+}
+
+.text-caption-2 {
+  font-size: 11px;
+  line-height: 13px;
+  font-weight: 400;
+}
+
+/* ── Buttons (Apple Style) ─────────────────────────────────── */
+button {
+  font-family: var(--font-primary);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 14px 24px;
+  background: var(--primary);
+  color: #ffffff;
+  font-size: 17px;
+  font-weight: 600;
+  border-radius: var(--radius-lg);
+  border: none;
+  box-shadow: var(--shadow-sm);
+  letter-spacing: -0.2px;
+}
+.btn-primary:hover {
+  background: var(--primary-dark);
+  box-shadow: var(--shadow-md);
+}
+.btn-primary:active {
+  transform: scale(0.98);
+  box-shadow: var(--shadow-sm);
+}
+.btn-primary:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 14px 24px;
+  background: var(--gray-100);
+  color: var(--gray-900);
+  font-size: 17px;
+  font-weight: 600;
+  border-radius: var(--radius-lg);
+  border: none;
+  box-shadow: var(--shadow-sm);
+  letter-spacing: -0.2px;
+}
+.btn-secondary:hover {
+  background: var(--gray-200);
+}
+.btn-secondary:active {
+  transform: scale(0.98);
+}
+
+.btn-tertiary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 14px 24px;
+  background: transparent;
+  color: var(--primary);
+  font-size: 17px;
+  font-weight: 600;
+  border-radius: var(--radius-lg);
+  border: none;
+}
+.btn-tertiary:hover {
+  background: var(--primary-light);
+}
+.btn-tertiary:active {
+  transform: scale(0.98);
+}
+
+/* ── Cards (Apple Style) ───────────────────────────────────── */
+.card {
+  background: var(--bg-primary);
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+.card:hover {
+  box-shadow: var(--shadow-md);
+}
+
+.card-glass {
+  background: rgba(255, 255, 255, 0.72);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: var(--shadow-lg);
+}
+
+/* ── Inputs (Apple Style) ──────────────────────────────────── */
+input, textarea, select {
+  font-family: var(--font-primary);
+  font-size: 17px;
+  color: var(--gray-900);
+  background: var(--bg-primary);
+  border: 1px solid var(--gray-300);
+  border-radius: var(--radius-md);
+  padding: 12px 16px;
+  transition: all 0.2s ease;
+  outline: none;
+}
+input::placeholder, textarea::placeholder {
+  color: var(--gray-500);
+}
+input:focus, textarea:focus, select:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 4px rgba(0, 122, 255, 0.1);
+}
+
+/* ── Scrollbar (Apple minimal) ─────────────────────────────── */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--gray-400);
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--gray-500);
+}
+
+/* ── Animations (Apple Spring Physics) ─────────────────────── */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.fade-in {
+  animation: fadeIn 0.35s cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+
+.slide-up {
+  animation: slideUp 0.4s cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+
+.scale-in {
+  animation: scaleIn 0.3s cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+
+/* ── Interactive States ────────────────────────────────────── */
+.interactive {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.interactive:active {
+  transform: scale(0.97);
+  opacity: 0.85;
+}
+
+button:active:not(:disabled),
+[role="button"]:active:not(:disabled) {
+  transform: scale(0.97);
+  opacity: 0.85;
+}
+
+/* ── Loading Spinner (Apple style) ─────────────────────────── */
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.spinner {
+  width: 20px;
+  height: 20px;
+  border: 2.5px solid var(--gray-200);
+  border-top-color: var(--primary);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+/* ── Skeleton Loading ──────────────────────────────────────── */
+.skeleton {
+  background: linear-gradient(90deg, var(--gray-100) 25%, var(--gray-50) 50%, var(--gray-100) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: var(--radius-md);
+}
+
+/* ── Status Indicators ─────────────────────────────────────── */
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+}
+.status-online { background: var(--success); box-shadow: 0 0 0 3px rgba(52, 199, 89, 0.2); }
+.status-offline { background: var(--gray-400); }
+.status-warning { background: var(--warning); box-shadow: 0 0 0 3px rgba(255, 149, 0, 0.2); }
+
+/* ── Dividers ──────────────────────────────────────────────── */
+.divider {
+  height: 1px;
+  background: var(--gray-200);
+}
+
+/* ── Glass Effect (iOS style) ──────────────────────────────── */
+.glass {
+  background: rgba(255, 255, 255, 0.72);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.glass-dark {
+  background: rgba(28, 28, 30, 0.72);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* ── Utility Classes ───────────────────────────────────────── */
+.shadow-apple-sm { box-shadow: var(--shadow-sm); }
+.shadow-apple-md { box-shadow: var(--shadow-md); }
+.shadow-apple-lg { box-shadow: var(--shadow-lg); }
+.shadow-apple-xl { box-shadow: var(--shadow-xl); }
+
+.text-primary { color: var(--primary); }
+.text-success { color: var(--success); }
+.text-warning { color: var(--warning); }
+.text-error { color: var(--error); }
+
+.bg-primary { background: var(--primary); }
+.bg-success { background: var(--success); }
+.bg-warning { background: var(--warning); }
+.bg-error { background: var(--error); }
+
+/* ── Layout Spacing ────────────────────────────────────────── */
+.container-safe {
+  padding-left: max(16px, env(safe-area-inset-left));
+  padding-right: max(16px, env(safe-area-inset-right));
+}
+
+/* ── Mobile Optimizations ──────────────────────────────────── */
+@media (max-width: 640px) {
+  /* Prevent iOS zoom on input focus */
+  input[type="text"],
+  input[type="email"],
+  input[type="tel"],
+  input[type="password"],
+  input[type="number"],
+  input[type="search"],
+  textarea,
+  select {
+    font-size: 16px;
+  }
+}
+
+/* ── Smooth Transitions ────────────────────────────────────── */
+* {
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ── Focus Visible (Accessibility) ─────────────────────────── */
+*:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+/* ── List Reset ────────────────────────────────────────────── */
+ul, ol {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* ── Link Reset ────────────────────────────────────────────── */
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* ── Selection ─────────────────────────────────────────────── */
+::selection {
+  background: rgba(0, 122, 255, 0.2);
+  color: var(--gray-900);
+}
+
+/* ── Print Styles ──────────────────────────────────────────── */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+}
+
+/* ── Performance Optimizations ─────────────────────────────── */
+.will-change-transform {
+  will-change: transform;
+}
+
+.gpu-accelerated {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
