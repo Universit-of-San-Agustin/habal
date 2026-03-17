@@ -1,55 +1,79 @@
-**Welcome to your Base44 project** 
+# HABAL
 
-**About**
+<p align="center">
+	<img src="https://readme-typing-svg.demolab.com?font=JetBrains+Mono&weight=700&size=22&duration=2200&pause=800&color=22C55E&center=true&vCenter=true&width=900&lines=%E2%98%98+HABAL+%7C+Clover+Edition;%E2%9A%A1+Fast+Demo+Flows+%E2%80%A2+Live+Maps+%E2%80%A2+Role+Switching;%F0%9F%9A%80+Built+to+impress+developers" alt="typing-banner" />
+</p>
 
-View and Edit  your app on [Base44.com](http://Base44.com) 
+<p align="center">
+	<a href="https://github.com/Universit-of-San-Agustin/habal/actions"><img src="https://img.shields.io/github/actions/workflow/status/Universit-of-San-Agustin/habal/deploy-pages.yml?style=for-the-badge&label=Pages%20Deploy" alt="deploy-status" /></a>
+	<img src="https://img.shields.io/badge/Clover-%E2%98%98-22c55e?style=for-the-badge" alt="clover" />
+	<img src="https://img.shields.io/badge/Vite-6.x-646CFF?style=for-the-badge&logo=vite&logoColor=white" alt="vite" />
+	<img src="https://img.shields.io/badge/React-18-149ECA?style=for-the-badge&logo=react&logoColor=white" alt="react" />
+</p>
 
-This project contains everything you need to run your app locally.
+## ☘ Project Identity
 
-**Edit the code in your local development environment**
+- Platform: HABAL ride and dispatch experience
+- Theme/Credit direction: 4.chan clover style inspiration
+- Focus: demo-ready flow, role switching, dispatch visibility, and map-based interaction
 
-Any change pushed to the repo will also be reflected in the Base44 Builder.
+## ⚡ Quick Start
 
-**Prerequisites:** 
+1. Clone this repository.
+2. Go to the project folder.
+3. Install dependencies:
 
-1. Clone the repository using the project's Git URL 
-2. Navigate to the project directory
-3. Install dependencies: `npm install`
-4. Create an `.env.local` file and set the right environment variables
-
+```bash
+npm install
 ```
+
+4. Create `.env.local` from `.env.example` and set values:
+
+```env
 VITE_BASE44_APP_ID=your_app_id
 VITE_BASE44_APP_BASE_URL=your_backend_url
-
-e.g.
-VITE_BASE44_APP_ID=cbef744a8545c389ef439ea6
-VITE_BASE44_APP_BASE_URL=https://my-to-do-list-81bfaad7.base44.app
+VITE_MAPBOX_PUBLIC_TOKEN=your_mapbox_public_token
 ```
 
-Run the app: `npm run dev`
+5. Start local development:
 
-**Deploy to GitHub Pages**
+```bash
+npm run dev
+```
 
-This repo is configured to deploy as a static Vite app on GitHub Pages.
+6. Build production bundle:
 
-1. Push the repository to GitHub
-2. In GitHub, enable Pages and set the source to `GitHub Actions`
-3. Push to `main`
-4. The workflow in `.github/workflows/deploy-pages.yml` will build and publish `dist/`
+```bash
+npm run build
+```
 
-Notes:
+## 🚀 GitHub Pages Deployment
 
-- The app uses `HashRouter` automatically on `github.io` hosts so route refreshes work on Pages
-- Vite is configured with relative asset paths for subpath hosting
-- Demo mode remains local-only and does not require backend auth to render the demo experience
+This repo is already configured for Pages via GitHub Actions.
 
-**Publish your changes**
+1. Open repository Settings > Pages.
+2. Set source to GitHub Actions.
+3. Push to `main`.
+4. Workflow [deploy-pages.yml](.github/workflows/deploy-pages.yml) builds and deploys `dist`.
 
-Open [Base44.com](http://Base44.com) and click on Publish.
+### Pages Notes
 
-**Docs & Support**
+- Uses `HashRouter` automatically on `github.io` hosts.
+- Vite base path is configured for static subpath hosting.
+- `.nojekyll` is included for clean static asset handling.
 
-Documentation: [https://docs.base44.com/Integrations/Using-GitHub](https://docs.base44.com/Integrations/Using-GitHub)
+## 🧠 Developer Highlights
 
-Support: [https://app.base44.com/support](https://app.base44.com/support)
-** Oliver **
+- Multi-role flow: Customer, Rider, Operator, Admin
+- Demo-mode store for local simulation
+- Real-time style dispatch activity feed
+- Mapbox-powered rider and trip visualization
+
+## 👤 Author
+
+- Satoshinkarts
+
+## 🙏 Credits
+
+- 4.chan clover-inspired creative direction ☘
+- Open-source ecosystem: React, Vite, Tailwind, Lucide
