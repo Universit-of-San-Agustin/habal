@@ -17,10 +17,30 @@ export const AuthProvider = ({ children }) => {
     checkAppState();
   }, []);
 
+  const isDemoSessionActive = () => {
+    if (typeof window === 'undefined') return false;
+    return window.localStorage.getItem('demo_mode') === 'true';
+  };
+
   const checkAppState = async () => {
     try {
       setIsLoadingPublicSettings(true);
       setAuthError(null);
+
+      // Demo mode bypass: allow app to render without backend auth/public-settings checks.
+      if (isDemoSessionActive()) {
+        setUser((prev) => prev || {
+          id: 'demo-session',
+          email: 'demo.customer@habal.app',
+          role: 'user',
+          full_name: 'Demo User',
+          is_demo: true,
+        });
+        setIsAuthenticated(true);
+        setIsLoadingPublicSettings(false);
+        setIsLoadingAuth(false);
+        return;
+      }
       
       // First, check app public settings (with token if available)
       // This will tell us if auth is required, user not registered, etc.
@@ -89,6 +109,12 @@ export const AuthProvider = ({ children }) => {
 
   const checkUserAuth = async () => {
     try {
+      if (isDemoSessionActive()) {
+        setIsLoadingAuth(false);
+        setIsAuthenticated(true);
+        return;
+      }
+
       // Now check if the user is authenticated
       setIsLoadingAuth(true);
       const currentUser = await base44.auth.me();
